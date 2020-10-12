@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js js,css,html, hbs",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js js,css,html,hbs",
     "test": "env-cmd -f ./config/test.env jest"
   },
   "author": "",
@@ -19,9 +19,11 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.9",
     "multer": "^1.4.2",
+    "path": "^0.12.7",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
     "sharp": "^0.26.1",
+    "socket.io": "^2.3.0",
     "validator": "^13.1.17"
   },
   "devDependencies": {
