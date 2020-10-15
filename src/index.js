@@ -3,7 +3,10 @@ const path = require("path");
 const express = require("express");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
-const { generateMessage } = require("./utils/messages");
+const {
+  generateMessage,
+  generateLocationMessage,
+} = require("./utils/messages");
 
 const port = process.env.PORT;
 
@@ -31,8 +34,13 @@ io.on("connection", (socket) => {
     callback("Delivered");
   });
 
-  socket.on("sendLocation", (location, callback) => {
-    io.emit("locationMessage", location);
+  socket.on("sendLocation", (coords, callback) => {
+    io.emit(
+      "locationMessage",
+      generateLocationMessage(
+        `https://google.com/maps?q=` + coords.latitude + `,` + coords.longitude
+      )
+    );
 
     callback("Delivered location!");
   });

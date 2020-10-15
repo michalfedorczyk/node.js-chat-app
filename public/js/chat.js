@@ -24,7 +24,8 @@ socket.on("locationMessage", (url) => {
   console.log(url);
 
   const html = Mustache.render(locationTemplate, {
-    url,
+    url: location.url,
+    createdAt: moment(location.createdAt).format("HH:MM dddd"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
 });
@@ -58,11 +59,11 @@ $locationButton.addEventListener("click", (e) => {
   navigator.geolocation.getCurrentPosition((position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    const location = "https://google.com/maps?q=" + latitude + "," + longitude;
+    const coords = { latitude, longitude };
 
     $locationButton.removeAttribute("disabled", "disabled");
 
-    socket.emit("sendLocation", location, (message) => {
+    socket.emit("sendLocation", coords, (message) => {
       console.log("Location delivered! " + message);
     });
   });
