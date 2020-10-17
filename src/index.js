@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
       return callback("Profanity is not allowed");
     }
 
-    io.to(user.room).emit("message", generateMessage(message));
+    io.to(user.room).emit("message", generateMessage(user.username, message));
     callback(`${user.username} delivered message`);
   });
 
@@ -68,6 +68,7 @@ io.on("connection", (socket) => {
     io.to(user.room).emit(
       "locationMessage",
       generateLocationMessage(
+        user.username,
         `https://google.com/maps?q=` + coords.latitude + `,` + coords.longitude
       )
     );
