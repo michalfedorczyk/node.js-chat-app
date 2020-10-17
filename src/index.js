@@ -48,22 +48,24 @@ io.on("connection", (socket) => {
         "message",
         generateMessage(`${user.username} joined the ${user.room}`)
       );
-    callback()  
+    // callback()
   });
 
   socket.on("sendMessage", (message, callback) => {
+    const user = getUser(socket.id);
     const filter = new Filter();
 
     if (filter.isProfane(message)) {
       return callback("Profanity is not allowed");
     }
 
-    io.emit("message", generateMessage(message));
-    callback("Delivered");
+    io.to(user.room).emit("message", generateMessage(message));
+    callback(`${user.username} delivered message`);
   });
 
   socket.on("sendLocation", (coords, callback) => {
-    io.emit(
+    const user = getUser(socket.id);
+    io.to(user.room).emit(
       "locationMessage",
       generateLocationMessage(
         `https://google.com/maps?q=` + coords.latitude + `,` + coords.longitude
